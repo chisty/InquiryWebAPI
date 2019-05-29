@@ -9,7 +9,6 @@ namespace InquiryWebAPI.Services
 {
     public class CustomerService: ICustomerService
     {
-
         public Customers GetCustomerByEmail(string email)
         {
             var customer = DbContext.Customers.FirstOrDefault(c => c.Email.IsEqual(email));

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace InquiryWebAPI.CustomAttribute
 {
-    public class ValidateInquiryAttribute: ActionFilterAttribute
+    public class CustomValidationFilter: ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
@@ -23,7 +23,7 @@ namespace InquiryWebAPI.CustomAttribute
                     {
                         if (string.IsNullOrWhiteSpace(payload.Email))
                         {
-                            context.Result = new BadRequestObjectResult("No inquiry criteria.");
+                            context.Result = new BadRequestObjectResult("No inquiry criteria.");                            
                             return;
                         }
 
