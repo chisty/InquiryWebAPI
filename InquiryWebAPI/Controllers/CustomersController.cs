@@ -27,16 +27,11 @@ namespace InquiryWebAPI.Controllers
         [HttpPost]
         [ValidateInquiry]
         public IActionResult GetCustomers([FromBody] CustomerPayload payload)
-        {
-            //Customers customer= null;
-
+        {            
             if (payload.CustomerId > 0M)
             {
                 var customer = CustomerService.GetCustomerById(payload.CustomerId);
-                if (customer != null)
-                {
-                    return Ok(customer);
-                }                
+                if (customer != null) return Ok(customer);
             }
 
             if (string.IsNullOrWhiteSpace(payload.Email) == false)
@@ -45,29 +40,6 @@ namespace InquiryWebAPI.Controllers
                 return customer == null ? (IActionResult)NotFound() : Ok(customer);
             }
 
-            //if (string.IsNullOrWhiteSpace(payload.Email) && payload.CustomerId == decimal.MinValue)
-            //{
-            //    return BadRequest("ASDF.");
-            //}
-
-            //if (payload.CustomerId > decimal.MinValue && payload.CustomerId <= 0M)
-            //{
-            //    return BadRequest("Invalid Customer ID.");
-            //}
-
-            //if (payload.CustomerId > 0M)
-            //{
-            //    var customer = CustomerService.GetCustomerById(payload.CustomerId);
-            //    return customer == null ? (IActionResult) NotFound() : Ok(customer);
-            //}
-
-            //if (string.IsNullOrWhiteSpace(payload.Email) == false)
-            //{
-            //    if (new EmailAddressAttribute().IsValid(payload.Email) == false) return BadRequest("Invalid Email.");
-
-            //    var customer = CustomerService.GetCustomerByEmail(payload.Email);
-            //    return customer == null ? (IActionResult) NotFound() : Ok(customer);
-            //}
 
             return BadRequest();
         }
