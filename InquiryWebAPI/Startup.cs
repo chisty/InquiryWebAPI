@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace InquiryWebAPI
 {
@@ -35,6 +36,16 @@ namespace InquiryWebAPI
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddScoped<ICustomerService, CustomerService>();
+
+            services.AddSwaggerGen(s =>
+            {
+                s.ResolveConflictingActions(x => x.First());
+                s.SwaggerDoc("inquiryAPI", new Info
+                {
+                    Title = "Customer Inquiry Service API",
+                    Version = "v1"
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -42,6 +53,9 @@ namespace InquiryWebAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseSwagger();
+                app.UseSwaggerUI(s => { s.SwaggerEndpoint("/swagger/inquiryAPI/swagger.json", "Customer Inquiry Service API"); });
             }
             else
             {
