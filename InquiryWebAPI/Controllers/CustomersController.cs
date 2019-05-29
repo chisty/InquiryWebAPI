@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using InquiryWebAPI.CustomAttribute;
 using InquiryWebAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,31 +25,49 @@ namespace InquiryWebAPI.Controllers
 
         // GET: api/Customers
         [HttpPost]
+        [ValidateInquiry]
         public IActionResult GetCustomers([FromBody] CustomerPayload payload)
         {
-            if (string.IsNullOrWhiteSpace(payload.Email) && payload.CustomerId == decimal.MinValue)
-            {
-                return BadRequest("No inquiry criteria.");
-            }
-
-            if (payload.CustomerId > decimal.MinValue && payload.CustomerId <= 0M)
-            {
-                return BadRequest("Invalid Customer ID.");
-            }
+            //Customers customer= null;
 
             if (payload.CustomerId > 0M)
             {
                 var customer = CustomerService.GetCustomerById(payload.CustomerId);
-                return customer == null ? (IActionResult) NotFound() : Ok(customer);
+                if (customer != null)
+                {
+                    return Ok(customer);
+                }                
             }
 
             if (string.IsNullOrWhiteSpace(payload.Email) == false)
             {
-                if (new EmailAddressAttribute().IsValid(payload.Email) == false) return BadRequest("Invalid Email.");
-
                 var customer = CustomerService.GetCustomerByEmail(payload.Email);
-                return customer == null ? (IActionResult) NotFound() : Ok(customer);
+                return customer == null ? (IActionResult)NotFound() : Ok(customer);
             }
+
+            //if (string.IsNullOrWhiteSpace(payload.Email) && payload.CustomerId == decimal.MinValue)
+            //{
+            //    return BadRequest("ASDF.");
+            //}
+
+            //if (payload.CustomerId > decimal.MinValue && payload.CustomerId <= 0M)
+            //{
+            //    return BadRequest("Invalid Customer ID.");
+            //}
+
+            //if (payload.CustomerId > 0M)
+            //{
+            //    var customer = CustomerService.GetCustomerById(payload.CustomerId);
+            //    return customer == null ? (IActionResult) NotFound() : Ok(customer);
+            //}
+
+            //if (string.IsNullOrWhiteSpace(payload.Email) == false)
+            //{
+            //    if (new EmailAddressAttribute().IsValid(payload.Email) == false) return BadRequest("Invalid Email.");
+
+            //    var customer = CustomerService.GetCustomerByEmail(payload.Email);
+            //    return customer == null ? (IActionResult) NotFound() : Ok(customer);
+            //}
 
             return BadRequest();
         }

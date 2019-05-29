@@ -29,7 +29,7 @@ namespace InquiryWebAPI
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
-                .AddJsonOptions(y => y.SerializerSettings.DateFormatString = "dd-MM-yyyy HH:MM"); ;
+                .AddJsonOptions(y => y.SerializerSettings.DateFormatString = "dd-MM-yyyy HH:MM");                
 
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
