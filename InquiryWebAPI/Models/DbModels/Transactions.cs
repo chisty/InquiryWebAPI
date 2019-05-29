@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace InquiryWebAPI.Models.DbModels
 {
@@ -9,7 +10,8 @@ namespace InquiryWebAPI.Models.DbModels
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public decimal Id { get; set; }
-        [Required(ErrorMessage = "Invalid customer Id.")]
+        [JsonIgnore]
+        [Required(ErrorMessage = "Invalid customer Id.")]        
         public decimal CustomerId { get; set; }
         [Required(ErrorMessage = "Invalid transaction datetime.")]
         public DateTime Date { get; set; }
