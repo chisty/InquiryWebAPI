@@ -50,7 +50,6 @@ namespace InquiryWebAPI.Tests
             Assert.IsType<NotFoundResult>(result);            
         }
 
-
         [Fact]
         public void GetCustomers_Valid_But_Unknown_CustomerID_Returns_NotFound()
         {
@@ -93,12 +92,5 @@ namespace InquiryWebAPI.Tests
             Assert.Equal(5, customers.Transactions.Count);
         }
 
-
-        
-
-
-
-
-        
     }
 }
